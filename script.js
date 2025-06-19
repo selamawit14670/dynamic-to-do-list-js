@@ -1,68 +1,50 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+// Wait for the DOM to fully load before running the script
+document.addEventListener('DOMContentLoaded', () => {
+  // Select DOM elements
+  const addButton = document.getElementById('add-task-btn');
+  const taskInput = document.getElementById('task-input');
+  const taskList = document.getElementById('task-list');
 
-#todo-app {
-  width: 100%;
-  max-width: 400px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
+  // Function to add a task
+  function addTask() {
+    // Get the text from the input and trim whitespace
+    const taskText = taskInput.value.trim();
 
-#task-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    // If input is empty, alert the user
+    if (taskText === '') {
+      alert('Please enter a task.');
+      return;
+    }
 
-#add-task-btn {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+    // Create the task <li> element
+    const li = document.createElement('li');
+    li.textContent = taskText;
 
-#add-task-btn:hover {
-  background-color: #0056b3;
-}
+    // Create the "Remove" button
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.className = 'remove-btn';
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+    // Set event handler for removing task
+    removeBtn.onclick = () => {
+      taskList.removeChild(li);
+    };
 
-li {
-  background-color: #eeeeee;
-  margin-top: 8px;
-  padding: 10px;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    // Add the button to the <li>, then <li> to the list
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
 
-.remove-btn {
-  cursor: pointer;
-  background-color: #ff6347;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-}
+    // Clear the input field
+    taskInput.value = '';
+  }
 
-.remove-btn:hover {
-  background-color: #d9534f;
-}
+  // Add click event to the "Add Task" button
+  addButton.addEventListener('click', addTask);
+
+  // Allow pressing "Enter" to also add a task
+  taskInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      addTask();
+    }
+  });
+});
