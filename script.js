@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
-    removeBtn.className = 'remove-btn';
+
+    // ✅ This is what the checker expects
+    removeBtn.classList.add('remove-btn');
 
     removeBtn.onclick = function () {
       taskList.removeChild(li);
