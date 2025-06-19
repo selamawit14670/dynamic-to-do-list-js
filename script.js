@@ -1,48 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
-  loadTasks();
-
-  document.getElementById('addTaskBtn').addEventListener('click', () => {
-    const input = document.getElementById('taskInput');
-    const taskText = input.value.trim();
-    if (taskText !== '') {
-      addTask(taskText);  // save = true by default
-      input.value = '';
-    }
-  });
-});
-
-function loadTasks() {
-  const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-  storedTasks.forEach(taskText => addTask(taskText, false));  // Don't save again
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
-function addTask(taskText, save = true) {
-  const taskList = document.getElementById('taskList');
-
-  const li = document.createElement('li');
-  li.textContent = taskText;
-
-  const removeBtn = document.createElement('button');
-  removeBtn.textContent = 'Remove';
-  removeBtn.className = 'remove';
-
-  removeBtn.addEventListener('click', () => {
-    taskList.removeChild(li);
-    removeFromStorage(taskText);
-  });
-
-  li.appendChild(removeBtn);
-  taskList.appendChild(li);
-
-  if (save) {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    storedTasks.push(taskText);
-    localStorage.setItem('tasks', JSON.stringify(storedTasks));
-  }
+#todo-app {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-function removeFromStorage(taskText) {
-  let storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-  storedTasks = storedTasks.filter(task => task !== taskText);
-  localStorage.setItem('tasks', JSON.stringify(storedTasks));
+#task-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#add-task-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#add-task-btn:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #eeeeee;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-btn {
+  cursor: pointer;
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.remove-btn:hover {
+  background-color: #d9534f;
 }
